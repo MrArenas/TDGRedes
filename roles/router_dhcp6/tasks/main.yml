@@ -1,0 +1,13 @@
+- name: Crear pool DHCPv6 para la VLAN
+  cisco.ios.ios_config:
+    lines:
+      - address prefix {{ vlan.dhcp_prefix }}
+      - dns-server {{ dns_server }}
+      - domain-name {{ domain_name }}
+    parents: ipv6 dhcp pool {{ vlan.dhcp_pool }}
+
+- name: Asociar subinterfaz del router al pool DHCPv6
+  cisco.ios.ios_config:
+    lines:
+      - ipv6 dhcp server {{ vlan.dhcp_pool }}
+    parents: interface {{ interface_name }}.{{ vlan.id }}

@@ -1,0 +1,45 @@
+# archivo de prueba para crear y configurar vlan, asignar puertos de acceso y relayDHCP6 en switch
+# comando opara ejecutar:
+# ansible-playbook -i ../Inventario/inventory.yml switchtest.yml
+
+- name: Configurar VLAN, puertos de acceso y DHCPv6 relay en el switch Cisco
+  hosts: switches
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+    vlan_id: 20
+    vlan_name: Usuarios 
+    vlan_interface_ip: "203F:A:b:20::1" 
+    vlan_interface_prefix: 64 
+    router_dhcp_ip: "203F:A:b:10::1" 
+    access_ports:
+      - FastEthernet0/1
+      - FastEthernet0/2
+      - FastEthernet0/3
+
+  tasks:
+    - name: Crear VLAN {{ vlan_id }}
+      ios_config:
+        lines:
+          - name {{ vlan_name }}
+        parents: vlan {{ vlan_id }}
+
+    - name: Asignar puertos como acceso a VLAN {{ vlan_id }}
+      ios_config:
+        lines:
+          - switchport mode access
+          - switchport access vlan {{ vlan_id }}
+          - spanning-tree portfast
+          - no shutdown
+        parents: interface {{ item }}
+      loop: "{{ access_ports }}"
+
+    - name: Configurar interfaz VLAN con IP y relay
+      ios_config:
+        lines:
+          - ipv6 address {{ vlan_interface_ip }}/{{ vlan_interface_prefix }}
+          - ipv6 nd managed-config-flag
+          - ipv6 dhcp relay destination {{ router_dhcp_ip }}
+          - no shutdown
+        parents: interface Vlan{{ vlan_id }}

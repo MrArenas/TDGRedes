@@ -1,0 +1,29 @@
+# archivo de prueba para la creacion y configuacion edl dhcp6  en el router 
+# comando para ejecutar:
+# ansible-playbook -i ../Inventario/inventory.yml routertest.yml
+
+- name: Configurar DHCPv6 en el router Cisco
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+#    router_interface: FastEthernet0/1  
+#    router_interface_ip: "203F:A:b:10::1"
+    vlan_prefix: "203F:A:b:0020::/64"
+
+  tasks:
+#    - name: Configurar interfaz hacia el switch
+#      ios_config:
+#        lines:
+#          - ipv6 address {{ router_interface_ip }}/64
+#          - no shutdown
+#        parents: interface {{ router_interface }}
+
+    - name: Crear pool DHCPv6 para VLAN 20
+      ios_config:
+        lines:
+          - address prefix {{ vlan_prefix }}
+          - dns-server 2001:4860:4860::8888
+          - domain-name red.local
+        parents: ipv6 dhcp pool DHCP-VLAN20
