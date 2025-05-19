@@ -1,11 +1,11 @@
 # ansible-playbook vlan_config.yml
 # ansible-playbook -i inventory/inventory.yml playbooks/vlan_config.yml
 
-- name: Configurar VLANs en switch
+- name: Configurar VLANs en el switch
   hosts: switch1
   gather_facts: no
   connection: network_cli
-
+  
   tasks:
     - name: Configurar VLANs en switch
       include_role:
@@ -20,7 +20,7 @@
   connection: network_cli
 
   tasks:
-    - name: Configurar DHCPv6 por VLAN
+    - name: Crear pools DHCPv6 por VLAN
       include_role:
         name: router_dhcp6
       loop: "{{ vlans }}"

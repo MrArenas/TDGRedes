@@ -1,6 +1,6 @@
 # archivo de prueba para crear y configurar vlan, asignar puertos de acceso y relayDHCP6 en switch
 # comando opara ejecutar:
-# ansible-playbook -i ../Inventario/inventory.yml switchtest.yml
+# ansible-playbook -i ../inventory/inventory.yml switchtest.yml
 
 - name: Configurar VLAN, puertos de acceso y DHCPv6 relay en el switch Cisco
   hosts: switches

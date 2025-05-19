@@ -1,6 +1,6 @@
 # archivo de prueba para la creacion y configuacion edl dhcp6  en el router 
 # comando para ejecutar:
-# ansible-playbook -i ../Inventario/inventory.yml routertest.yml
+# ansible-playbook -i ../inventory/inventory.yml routertest.yml
 
 - name: Configurar DHCPv6 en el router Cisco
   hosts: routers
