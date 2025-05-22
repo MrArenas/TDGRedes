@@ -1,0 +1,14 @@
+# ansible-playbook dhcp6_config.yml
+# ansible-playbook -i inventory/inventory.yml playbooks/dhcp6_config.yml
+- name: Configurar DHCPv6 en router
+  hosts: router1
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Crear pools DHCPv6 por VLAN
+      include_role:
+        name: router_dhcp6
+      loop: "{{ vlans_router }}"
+      loop_control:
+        loop_var: vlan

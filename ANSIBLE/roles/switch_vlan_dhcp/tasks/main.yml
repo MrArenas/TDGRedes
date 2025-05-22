@@ -1,29 +1,28 @@
 # Este playbook configura un switch Cisco para crear VLANs, asignar puertos de acceso y configurar DHCPv6 Relay.
 
-- name: Crear VLANs en el switch
+- name: Crear VLAN en el switch
   ios_config:
-    parents: vlan {{ item.id }}
+    parents: vlan {{ vlan.id }}
     lines:
-      - name {{ item.name }}
-  loop: "{{ vlans }}"
+      - name {{ vlan.name }}
 
-- name: Asignar puertos de acceso a cada VLAN
+- name: Asignar puertos de acceso a la VLAN
   ios_config:
-    parents: interface {{ item.1 }}
+    parents: interface {{ item }}
     lines:
       - switchport mode access
-      - switchport access vlan {{ item.0.id }}
+      - switchport access vlan {{ vlan.id }}
       - spanning-tree portfast
       - no shutdown
-  loop: "{{ vlans | subelements('access_ports') }}"
+  loop: "{{ vlan.access_ports }}"
 
 - name: Configurar interfaz VLAN enrutada (SVI)
   ios_config:
-    parents: interface Vlan{{ item.id }}
+    parents: interface Vlan{{ vlan.id }}
     lines:
-      - ipv6 address {{ item.vlan_ipv6_address }}/64
+      - ipv6 address {{ vlan.vlan_ipv6_address }}/64
       - ipv6 enable
       - ipv6 nd managed-config-flag
       - ipv6 dhcp relay destination {{ router_ipv6 }}
       - no shutdown
-  loop: "{{ vlans }}"
+

@@ -1,0 +1,22 @@
+# ansible-playbook vlan_config.yml
+# ansible-playbook -i inventory/inventory.yml playbooks/vlan_config.yml
+
+- name: Configurar solo la VLAN relacionada al puerto detectado
+  hosts: switch1
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+    puerto_detectado: "{{ puerto }}"  # Se pasa vía extra vars
+
+  tasks:
+    - name: Obtener la VLAN correspondiente al puerto detectado
+      set_fact:
+        vlan_filtrada: "{{ vlans_switch | selectattr('access_ports', 'contains', puerto_detectado) | list | first }}"
+
+    - name: Aplicar configuración de VLAN
+      include_role:
+        name: switch_vlan_dhcp
+      vars:
+        vlan: "{{ vlan_filtrada }}"
+      when: vlan_filtrada is defined and vlan_filtrada is not none

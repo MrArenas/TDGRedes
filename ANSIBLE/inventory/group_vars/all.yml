@@ -1,0 +1,20 @@
+#vlans:
+#  - id: 20
+#    name: Usuarios
+#    access_ports: [FastEthernet0/1, FastEthernet0/2]
+#    vlan_ipv6_address: 203F:A:b:0020::1
+#    dhcp_prefix: 203F:A:b:0020::/64
+#    dhcp_pool: VLAN20-POOL
+#
+#  - id: 30
+#    name: Administracion
+#    access_ports: [FastEthernet0/3, FastEthernet0/4]
+#    vlan_ipv6_address: 203F:A:b:0030::1
+#    dhcp_prefix: 203F:A:b:0030::/64
+#    dhcp_pool: VLAN30-POOL
+#
+## Configuración común
+#interface_name: FastEthernet0/1
+#router_ipv6: 203F:A:b:0001::1
+#dns_server: 2001:4860:4860::8888
+#domain_name: red.local
