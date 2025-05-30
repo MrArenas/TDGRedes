@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 import sys
 import os
+import time
+
+# Agregar el directorio raíz al sys.path
+sys.path.append(os.path.abspath("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE"))
+
+from access_control.snmp_utils import buscar_mac_por_puerto_con_reintentos
+
 import datetime
 import json
 import subprocess
 import re
 
+
+
 # Rutas
-BASE_DIR = "/home/tdg2025/Escritorio/TDGRedes"
-LOG_FILE = os.path.join(BASE_DIR, "snmp/logs/snmp_traps.log")
-CONFIG_FILE = os.path.join(BASE_DIR, "snmp/config/dispositivos.json")
+BASE_DIR = "/home/tdg2025/Escritorio/TDGRedes/ANSIBLE"
+LOG_FILE = os.path.join(BASE_DIR, "access_control/logs/snmp_traps.log")
+CONFIG_FILE = os.path.join(BASE_DIR, "access_control/config/dispositivos.json")
 
 # Asegurar existencia del directorio de logs
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
@@ -47,6 +56,13 @@ def obtener_puerto(trap_data, ifindex_to_interface):
                     break
     return puerto, puerto_index
 
+def detectar_mac(trap_data):
+    """Extrae la dirección MAC del trap SNMP recibido."""
+    mac_match = re.search(r"(([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2})", trap_data)
+    if mac_match:
+        return mac_match.group(1)
+    return None
+
 def validar_puerto(puerto):
     return re.sub(r'[^A-Za-z0-9/]', '', puerto)
 
@@ -60,18 +76,31 @@ def determinar_evento(trap_data, acciones):
             break
     return evento, accion
 
-def ejecutar_playbook(puerto):
+def ejecutar_playbook(mac_address, puerto, vlan_id):
     os.chdir("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE")
     try:
         result = subprocess.run([
             "ansible-playbook",
-            "playbooks/vlan_config.yml",
-            "--extra-vars", f"puerto={puerto}"
+            "playbooks/asignar_vlanxmac.yml",
+            "--extra-vars", f"mac_address={mac_address} interface_name={puerto} vlan_id={vlan_id}"
         ], capture_output=True, text=True)
 
-        log(f"Playbook ejecutado para puerto {puerto}. Salida:\n{result.stdout}\nErrores:\n{result.stderr}")
+        log(f"Playbook ejecutado para MAC {mac_address} en puerto {puerto} con VLAN {vlan_id}. Salida:\n{result.stdout}\nErrores:\n{result.stderr}")
     except Exception as e:
         log(f"ERROR ejecutando playbook: {str(e)}")
+
+def limpiar_puerto(puerto):
+    os.chdir("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE")
+    try:
+        result = subprocess.run([
+            "ansible-playbook",
+            "playbooks/limpiar_puerto.yml",
+            "--extra-vars", f"interface_name={puerto}"
+        ], capture_output=True, text=True)
+
+        log(f"Playbook de limpieza ejecutado para el puerto {puerto}. Salida:\n{result.stdout}\nErrores:\n{result.stderr}")
+    except Exception as e:
+        log(f"ERROR ejecutando playbook de limpieza: {str(e)}")
 
 def main():
     try:
@@ -85,31 +114,51 @@ def main():
         ifindex_to_interface = config.get("ifindex_to_interface", {})
         acciones = config.get("acciones", {})
 
-        
-        ip_origen_aux = re.search(r'UDP/IPv6:\s+\[([0-9a-fA-F:]+)\]',trap_data)
+        # Detectar IP de origen
+        ip_origen_aux = re.search(r'UDP/IPv6:\s+\[([0-9a-fA-F:]+)\]', trap_data)
         if ip_origen_aux:
-            ip_origen=ip_origen_aux.group(1)
+            ip_origen = ip_origen_aux.group(1)
         else:
             ip_origen = "desconocido"
         dispositivo = obtener_dispositivo(ip_origen, dispositivos_por_ip)
+
+        # Detectar evento y acción
         evento, accion = determinar_evento(trap_data, acciones)
+
+        # Detectar puerto
         puerto, puerto_index = obtener_puerto(trap_data, ifindex_to_interface)
+
+        # Obtener dirección MAC únicamente mediante SNMP polling con reintentos
+        mac_address = None
+        if puerto_index.isdigit():
+            log(f"Intentando obtener la dirección MAC mediante SNMP polling con reintentos para ifIndex {puerto_index}...")
+            mac_address = buscar_mac_por_puerto_con_reintentos(ip_origen, int(puerto_index))
+        if not mac_address:
+            log("No se pudo obtener la dirección MAC mediante SNMP polling con reintentos.")
+            mac_address = "desconocida"
 
         log_entry = (
             f"Evento: {evento}\n"
             f"Dispositivo: {dispositivo} IP origen: {ip_origen}\n"
             f"Puerto detectado: {puerto} (Index {puerto_index})\n"
+            f"MAC detectada: {mac_address}\n"
             f"{trap_data}\n{'-'*60}\n"
         )
         log(log_entry)
 
         puerto = validar_puerto(puerto)
 
-        if accion == "conectar" and puerto != "desconocido":
-            log(f"Nuevo dispositivo conectado en puerto {puerto}, ejecutando playbook...")
-            ejecutar_playbook(puerto)
-        elif accion == "desconectar":
+        if accion == "conectar" and puerto != "desconocido" and mac_address != "desconocida":
+            vlan_id = config.get("vlan_por_mac", {}).get(mac_address)
+            if vlan_id:
+                log(f"Configurando VLAN {vlan_id} en puerto {puerto} para MAC {mac_address}...")
+                ejecutar_playbook(mac_address, puerto, vlan_id)
+            else:
+                log(f"No se encontró una VLAN asignada para la MAC {mac_address}.")
+        elif accion == "desconectar" and puerto != "desconocido":
             log(f"Dispositivo desconectado en puerto {puerto} del {dispositivo}")
+            log(f"Limpieza del puerto {puerto} tras desconexión del dispositivo en {dispositivo}.")
+            limpiar_puerto(puerto)
         else:
             log("Trap recibido sin acción automática definida.")
 

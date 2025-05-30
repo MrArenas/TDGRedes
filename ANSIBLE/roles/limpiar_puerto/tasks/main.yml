@@ -1,0 +1,19 @@
+---
+- name: Apagar el puerto
+  ios_config:
+    lines:
+      - shutdown
+    parents: interface {{ interface_name }}
+
+- name: Limpiar configuración del puerto
+  ios_config:
+    lines:
+      - no switchport access vlan
+      - no switchport port-security
+    parents: interface {{ interface_name }}
+
+- name: Habilitar el puerto
+  ios_config:
+    lines:
+      - no shutdown
+    parents: interface {{ interface_name }}

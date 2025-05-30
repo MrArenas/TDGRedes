@@ -1,0 +1,25 @@
+- name: Asignar VLAN y port-security por MAC
+  hosts: switches
+  gather_facts: no
+  vars:
+    mac_address: "{{ mac_address }}"
+    vlan_id: "{{ vlan_id }}"
+    interface_name: "{{ interface_name }}"
+  tasks:
+    - name: Verificar y crear VLAN si no existe
+      ios_config:
+        lines:
+          - vlan {{ vlan_id }}
+          - name VLAN_{{ vlan_id }}
+      when: vlan_id is defined  # Mover la condición al nivel de la tarea
+
+    - name: Configurar VLAN en el puerto
+      ios_config:
+        lines:
+          - switchport mode access
+          - switchport access vlan {{ vlan_id }}
+          - switchport port-security
+          - switchport port-security mac-address {{ mac_address }}
+          - switchport port-security maximum 1
+          - switchport port-security violation restrict
+        parents: interface {{ interface_name }}

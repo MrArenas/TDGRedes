@@ -1,0 +1,8 @@
+---
+- name: Limpieza de puerto tras desconexión
+  hosts: switches
+  gather_facts: no
+  vars:
+    interface_name: "{{ interface_name }}"  # Variable pasada como extra-vars
+  roles:
+    - role: limpiar_puerto

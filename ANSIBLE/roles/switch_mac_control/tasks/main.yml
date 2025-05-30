@@ -1,0 +1,10 @@
+---
+- name: Configurar port-security en el puerto
+  ios_config:
+    lines:
+      - switchport mode access
+      - switchport port-security
+      - switchport port-security mac-address {{ mac_address }}
+      - switchport port-security maximum 1
+      - switchport port-security violation restrict
+    parents: interface {{ interface_name }}
