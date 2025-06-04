@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import sys
 import os
 import time
@@ -13,8 +14,6 @@ import json
 import subprocess
 import re
 
-
-
 # Rutas
 BASE_DIR = "/home/tdg2025/Escritorio/TDGRedes/ANSIBLE"
 LOG_FILE = os.path.join(BASE_DIR, "access_control/logs/snmp_traps.log")
@@ -24,6 +23,12 @@ CONFIG_FILE = os.path.join(BASE_DIR, "access_control/config/dispositivos.json")
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 
 def cargar_configuracion():
+    """
+    Carga la configuración desde el archivo JSON especificado en CONFIG_FILE.
+
+    Returns:
+        dict: Diccionario con la configuración cargada.
+    """
     try:
         with open(CONFIG_FILE) as f:
             return json.load(f)
@@ -32,14 +37,40 @@ def cargar_configuracion():
         sys.exit(1)
 
 def log(mensaje):
+    """
+    Registra un mensaje en el archivo de log.
+
+    Args:
+        mensaje (str): Mensaje a registrar.
+    """
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(LOG_FILE, "a") as f:
         f.write(f"[{timestamp}] {mensaje}\n")
 
 def obtener_dispositivo(ip, dispositivos_por_ip):
+    """
+    Obtiene el nombre del dispositivo asociado a una IP.
+
+    Args:
+        ip (str): Dirección IP del dispositivo.
+        dispositivos_por_ip (dict): Diccionario de dispositivos por IP.
+
+    Returns:
+        str: Nombre del dispositivo o "DESCONOCIDO" si no se encuentra.
+    """
     return dispositivos_por_ip.get(ip, "DESCONOCIDO")
 
 def obtener_puerto(trap_data, ifindex_to_interface):
+    """
+    Extrae el puerto y su índice del trap SNMP recibido.
+
+    Args:
+        trap_data (str): Datos del trap SNMP.
+        ifindex_to_interface (dict): Mapeo de índices a nombres de interfaces.
+
+    Returns:
+        tuple: Nombre del puerto y su índice.
+    """
     puerto = "desconocido"
     puerto_index = "desconocido"
     for linea in trap_data.splitlines():
@@ -57,16 +88,43 @@ def obtener_puerto(trap_data, ifindex_to_interface):
     return puerto, puerto_index
 
 def detectar_mac(trap_data):
-    """Extrae la dirección MAC del trap SNMP recibido."""
+    """
+    Extrae la dirección MAC del trap SNMP recibido.
+
+    Args:
+        trap_data (str): Datos del trap SNMP.
+
+    Returns:
+        str: Dirección MAC encontrada o None si no se encuentra.
+    """
     mac_match = re.search(r"(([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2})", trap_data)
     if mac_match:
         return mac_match.group(1)
     return None
 
 def validar_puerto(puerto):
+    """
+    Valida y limpia el nombre del puerto.
+
+    Args:
+        puerto (str): Nombre del puerto.
+
+    Returns:
+        str: Nombre del puerto limpio.
+    """
     return re.sub(r'[^A-Za-z0-9/]', '', puerto)
 
 def determinar_evento(trap_data, acciones):
+    """
+    Determina el evento y la acción asociada al trap SNMP.
+
+    Args:
+        trap_data (str): Datos del trap SNMP.
+        acciones (dict): Diccionario de acciones por palabra clave.
+
+    Returns:
+        tuple: Evento detectado y acción asociada.
+    """
     evento = "TRAP DESCONOCIDO"
     accion = None
     for palabra_clave, (evento_detectado, accion_detectada) in acciones.items():
@@ -76,12 +134,21 @@ def determinar_evento(trap_data, acciones):
             break
     return evento, accion
 
-def ejecutar_playbook(mac_address, puerto, vlan_id):
+def ejecutar_playbook(mac_address, puerto, vlan_id, playbook):
+    """
+    Ejecuta un playbook de Ansible con las variables proporcionadas.
+
+    Args:
+        mac_address (str): Dirección MAC del dispositivo.
+        puerto (str): Nombre del puerto.
+        vlan_id (str): ID de la VLAN.
+        playbook (str): Ruta del playbook a ejecutar.
+    """
     os.chdir("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE")
     try:
         result = subprocess.run([
             "ansible-playbook",
-            "playbooks/asignar_vlanxmac.yml",
+            f"/home/tdg2025/Escritorio/TDGRedes/ANSIBLE/{playbook}",
             "--extra-vars", f"mac_address={mac_address} interface_name={puerto} vlan_id={vlan_id}"
         ], capture_output=True, text=True)
 
@@ -90,6 +157,12 @@ def ejecutar_playbook(mac_address, puerto, vlan_id):
         log(f"ERROR ejecutando playbook: {str(e)}")
 
 def limpiar_puerto(puerto):
+    """
+    Limpia la configuración de un puerto en el switch.
+
+    Args:
+        puerto (str): Nombre del puerto a limpiar.
+    """
     os.chdir("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE")
     try:
         result = subprocess.run([
@@ -103,6 +176,10 @@ def limpiar_puerto(puerto):
         log(f"ERROR ejecutando playbook de limpieza: {str(e)}")
 
 def main():
+    """
+    Función principal que procesa traps SNMP, detecta eventos y ejecuta acciones
+    como asignar VLANs o limpiar puertos según corresponda.
+    """
     try:
         trap_data = sys.stdin.read()
         if not trap_data.strip():
@@ -150,9 +227,11 @@ def main():
 
         if accion == "conectar" and puerto != "desconocido" and mac_address != "desconocida":
             vlan_id = config.get("vlan_por_mac", {}).get(mac_address)
+            log(f"Creando o actualizando VLAN {vlan_id} para MAC {mac_address}")
+            ejecutar_playbook(mac_address, puerto, vlan_id, "playbooks/vlan_config.yml")
             if vlan_id:
                 log(f"Configurando VLAN {vlan_id} en puerto {puerto} para MAC {mac_address}...")
-                ejecutar_playbook(mac_address, puerto, vlan_id)
+                ejecutar_playbook(mac_address, puerto, vlan_id, "playbooks/asignar_vlanxmac.yml")
             else:
                 log(f"No se encontró una VLAN asignada para la MAC {mac_address}.")
         elif accion == "desconectar" and puerto != "desconocido":

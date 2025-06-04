@@ -1,8 +1,10 @@
----
+# Este playbook limpia la configuración de un puerto en un switch Cisco.
+# Se utiliza cuando un dispositivo se desconecta del puerto.
+
 - name: Limpieza de puerto tras desconexión
   hosts: switches
   gather_facts: no
   vars:
-    interface_name: "{{ interface_name }}"  # Variable pasada como extra-vars
+    interface_name: "{{ interface_name }}"  # Nombre del puerto a limpiar.
   roles:
     - role: limpiar_puerto

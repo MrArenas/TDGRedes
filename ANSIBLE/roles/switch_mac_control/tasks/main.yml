@@ -1,4 +1,6 @@
----
+# Este archivo contiene las tareas para configurar port-security en un switch Cisco.
+# Se utiliza el módulo `ios_config` para aplicar configuraciones específicas al puerto.
+
 - name: Configurar port-security en el puerto
   ios_config:
     lines:

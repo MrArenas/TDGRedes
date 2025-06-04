@@ -1,22 +1,32 @@
 # ansible-playbook vlan_config.yml
 # ansible-playbook -i inventory/inventory.yml playbooks/vlan_config.yml
+# Este playbook configura una VLAN en un switch Cisco.
+# Incluye la creación de la VLAN, asignación de puertos y configuración de DHCPv6 relay.
 
-- name: Configurar solo la VLAN relacionada al puerto detectado
+- name: Configurar VLAN basada en vlan_id
   hosts: switch1
   gather_facts: no
   connection: network_cli
 
   vars:
-    puerto_detectado: "{{ puerto }}"  # Se pasa vía extra vars
+    vlan_id: "{{ vlan_id }}"  # ID de la VLAN a configurar.
+    switch_ip: "{{ hostvars[inventory_hostname]['switch_ip'] }}"  # Dirección IP del switch.
 
   tasks:
-    - name: Obtener la VLAN correspondiente al puerto detectado
-      set_fact:
-        vlan_filtrada: "{{ vlans_switch | selectattr('access_ports', 'contains', puerto_detectado) | list | first }}"
+    - name: Verificar que vlans_switch está definido
+      fail:
+        msg: "La variable vlans_switch no está definida o está vacía."
+      when: vlans_switch is not defined or vlans_switch | length == 0
 
-    - name: Aplicar configuración de VLAN
+    - name: Obtener la VLAN correspondiente al vlan_id
+      set_fact:
+        vlan_filtrada: "{{ vlans_switch | selectattr('id', 'equalto', vlan_id | int) | list | first }}"
+      when: vlans_switch is defined and vlans_switch | length > 0
+
+    - name: Crear VLAN en el switch
       include_role:
         name: switch_vlan_dhcp
       vars:
         vlan: "{{ vlan_filtrada }}"
+        switch_ip: "{{ switch_ip }}"
       when: vlan_filtrada is defined and vlan_filtrada is not none

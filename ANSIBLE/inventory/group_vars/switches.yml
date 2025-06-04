@@ -1,17 +1,17 @@
 vlans_switch:
   - id: 20
     name: Usuarios
-    access_ports: [FastEthernet0/1, FastEthernet0/2]
+    #access_ports: [FastEthernet0/1, FastEthernet0/2]
     vlan_ipv6_address: 203F:A:b:0020::1
 
   - id: 30
     name: Administracion
-    access_ports: [FastEthernet0/3, FastEthernet0/4]
+    #access_ports: [FastEthernet0/3, FastEthernet0/4]
     vlan_ipv6_address: 203F:A:b:0030::1
   
   - id: 40
     name: Pruebas
-    access_ports: [FastEthernet0/6, FastEthernet0/7]
+    #access_ports: [FastEthernet0/6, FastEthernet0/7]
     vlan_ipv6_address: 203F:A:b:0040::1
 
 interface_name: FastEthernet0/1

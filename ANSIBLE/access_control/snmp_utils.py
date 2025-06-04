@@ -3,13 +3,34 @@
 import subprocess
 import datetime
 import time
+import os
 
+# Función para registrar mensajes en un archivo de log
 def log(message):
+    """
+    Escribe un mensaje en el archivo de log `snmp_utils.log`.
+
+    Args:
+        message (str): Mensaje a registrar.
+    """
+    os.chdir("/home/tdg2025/Escritorio/TDGRedes/ANSIBLE/access_control/logs")
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open("snmp_utils.log", "a") as log_file:
         log_file.write(f"[{timestamp}] {message}\n")
 
+# Función para buscar la dirección MAC asociada a un puerto en un switch
 def buscar_mac_por_puerto(switch_ip, ifindex, community="proyectoTDG"):
+    """
+    Busca la dirección MAC asociada a un puerto en un switch utilizando SNMP.
+
+    Args:
+        switch_ip (str): Dirección IP del switch.
+        ifindex (int): Índice del puerto en el switch.
+        community (str): Comunidad SNMP.
+
+    Returns:
+        str: Dirección MAC encontrada o None si no se encuentra.
+    """
     try:
         oid_mac_to_port = "1.3.6.1.2.1.17.4.3.1.2"
         oid_port_to_ifindex = "1.3.6.1.2.1.17.1.4.1.2"
