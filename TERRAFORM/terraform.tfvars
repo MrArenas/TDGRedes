@@ -2,18 +2,19 @@
 # Aquí se configuran las imágenes base, recursos de los nodos y nombres.
 
 # Archivos de imágenes base
-router_image  = "/var/lib/libvirt/images/router-base.qcow2"
-switch_image  = "/var/lib/libvirt/images/switch-base.qcow2"
-client_image  = "/var/lib/libvirt/images/client-base.qcow2"
+router_image  = "/var/lib/libvirt/images/{nombre imagen deseada}"
+switch_image  = "/var/lib/libvirt/images/{nombre imagen deseada}"
+client_image  = "/var/lib/libvirt/images/{nombre imagen deseada}"
 
 # Recursos de los nodos
-router_memory = 1024
-switch_memory = 1024
-client_memory = 512
+router_memory = 2024
+switch_memory = 2024
+client_memory = 2024
 
-router_vcpu   = 1
-switch_vcpu   = 1
-client_vcpu   = 1
+# Cantidad de CPU asignada a cada nodo
+router_vcpu   = 2
+switch_vcpu   = 2
+client_vcpu   = 2
 
 # Nombres (opcionalmente personalizables)
 router_name = "router"

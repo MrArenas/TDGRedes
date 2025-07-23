@@ -1,0 +1,274 @@
+[2025-07-23 12:18:42] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:18:43] Procesando evento para puerto físico configurado ifIndex 10016...
+[2025-07-23 12:19:09] Evento: ENLACE UP
+Dispositivo: SWITCH IP origen: 203f:a:b:10::2
+Puerto detectado: FastEthernet0/16 (Index 10016)
+MAC detectada: 00:E0:4C:68:01:40
+<UNKNOWN>
+UDP/IPv6: [203f:a:b:10::2]:64552
+DISMAN-EVENT-MIB::sysUpTimeInstance 0:0:02:56.81
+SNMPv2-MIB::snmpTrapOID.0 IF-MIB::linkUp
+IF-MIB::ifIndex.10016 10016
+IF-MIB::ifDescr.10016 FastEthernet0/16
+IF-MIB::ifType.10016 ethernetCsmacd
+SNMPv2-SMI::enterprises.9.2.2.1.1.20.10016 "up"
+
+------------------------------------------------------------
+
+[2025-07-23 12:19:09] Creando o actualizando VLAN 30 para MAC 00:E0:4C:68:01:40
+[2025-07-23 12:19:15] Playbook ejecutado para MAC 00:E0:4C:68:01:40 en puerto FastEthernet0/16 con VLAN 30. Salida:
+
+PLAY [Configurar VLAN basada en vlan_id] ***************************************
+
+TASK [Verificar que vlans_switch está definido] ********************************
+skipping: [switch1]
+
+TASK [Obtener la VLAN correspondiente al vlan_id] ******************************
+ok: [switch1]
+
+TASK [Crear VLAN en el switch] *************************************************
+included: switch_vlan_dhcp for switch1
+
+TASK [switch_vlan_dhcp : Crear VLAN en el switch] ******************************
+changed: [switch1]
+
+TASK [switch_vlan_dhcp : Configurar interfaz VLAN enrutada (SVI)] **************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=4    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:19:30] Esperando para que la VLAN 30 se estabilice...
+[2025-07-23 12:19:35] Configurando VLAN 30 en puerto FastEthernet0/16 para MAC 00:E0:4C:68:01:40...
+[2025-07-23 12:19:39] Playbook ejecutado para MAC 00:E0:4C:68:01:40 en puerto FastEthernet0/16 con VLAN 30. Salida:
+
+PLAY [Asignar VLAN y port-security por MAC] ************************************
+
+TASK [switch_mac_control : Configurar port-security en el puerto] **************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:19:39] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:39] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:39] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:40] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:40] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:40] Evento ignorado: ifIndex 30 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:19:40] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:40] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:19:40] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:20:09] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:20:09] Evento ignorado: ifIndex 30 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:20:15] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:21:22] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:21:23] Procesando evento para puerto físico configurado ifIndex 10004...
+[2025-07-23 12:21:48] Evento: ENLACE UP
+Dispositivo: SWITCH IP origen: 203f:a:b:10::2
+Puerto detectado: FastEthernet0/4 (Index 10004)
+MAC detectada: 30:13:8B:F1:00:BE
+<UNKNOWN>
+UDP/IPv6: [203f:a:b:10::2]:64552
+DISMAN-EVENT-MIB::sysUpTimeInstance 0:0:05:36.39
+SNMPv2-MIB::snmpTrapOID.0 IF-MIB::linkUp
+IF-MIB::ifIndex.10004 10004
+IF-MIB::ifDescr.10004 FastEthernet0/4
+IF-MIB::ifType.10004 ethernetCsmacd
+SNMPv2-SMI::enterprises.9.2.2.1.1.20.10004 "up"
+
+------------------------------------------------------------
+
+[2025-07-23 12:21:48] Creando o actualizando VLAN 20 para MAC 30:13:8B:F1:00:BE
+[2025-07-23 12:21:55] Playbook ejecutado para MAC 30:13:8B:F1:00:BE en puerto FastEthernet0/4 con VLAN 20. Salida:
+
+PLAY [Configurar VLAN basada en vlan_id] ***************************************
+
+TASK [Verificar que vlans_switch está definido] ********************************
+skipping: [switch1]
+
+TASK [Obtener la VLAN correspondiente al vlan_id] ******************************
+ok: [switch1]
+
+TASK [Crear VLAN en el switch] *************************************************
+included: switch_vlan_dhcp for switch1
+
+TASK [switch_vlan_dhcp : Crear VLAN en el switch] ******************************
+changed: [switch1]
+
+TASK [switch_vlan_dhcp : Configurar interfaz VLAN enrutada (SVI)] **************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=4    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:22:10] Esperando para que la VLAN 20 se estabilice...
+[2025-07-23 12:22:15] Configurando VLAN 20 en puerto FastEthernet0/4 para MAC 30:13:8B:F1:00:BE...
+[2025-07-23 12:22:19] Playbook ejecutado para MAC 30:13:8B:F1:00:BE en puerto FastEthernet0/4 con VLAN 20. Salida:
+
+PLAY [Asignar VLAN y port-security por MAC] ************************************
+
+TASK [switch_mac_control : Configurar port-security en el puerto] **************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: ifIndex 20 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:19] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:44] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:48] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:22:48] Evento ignorado: ifIndex 20 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:27:28] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:27:54] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:31:51] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:31:51] Evento ignorado: ifIndex 30 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:31:52] Procesando evento para puerto físico configurado ifIndex 10016...
+[2025-07-23 12:32:18] No se pudo obtener la dirección MAC mediante SNMP polling con reintentos.
+[2025-07-23 12:32:18] Evento: ENLACE DOWN
+Dispositivo: SWITCH IP origen: 203f:a:b:10::2
+Puerto detectado: FastEthernet0/16 (Index 10016)
+MAC detectada: desconocida
+<UNKNOWN>
+UDP/IPv6: [203f:a:b:10::2]:64552
+DISMAN-EVENT-MIB::sysUpTimeInstance 0:0:16:05.83
+SNMPv2-MIB::snmpTrapOID.0 IF-MIB::linkDown
+IF-MIB::ifIndex.10016 10016
+IF-MIB::ifDescr.10016 FastEthernet0/16
+IF-MIB::ifType.10016 ethernetCsmacd
+SNMPv2-SMI::enterprises.9.2.2.1.1.20.10016 "down"
+
+------------------------------------------------------------
+
+[2025-07-23 12:32:18] Dispositivo desconectado en puerto FastEthernet0/16 del SWITCH
+[2025-07-23 12:32:18] Limpieza del puerto FastEthernet0/16 tras desconexión del dispositivo en SWITCH.
+[2025-07-23 12:32:26] Playbook de limpieza ejecutado para el puerto FastEthernet0/16. Salida:
+
+PLAY [Limpieza de puerto tras desconexión] *************************************
+
+TASK [limpiar_puerto : Apagar el puerto] ***************************************
+changed: [switch1]
+
+TASK [limpiar_puerto : Limpiar configuración del puerto] ***********************
+changed: [switch1]
+
+TASK [limpiar_puerto : Habilitar el puerto] ************************************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:32:26] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:32:26] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:32:26] Evento ignorado: ifIndex 20 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:32:26] Procesando evento para puerto físico configurado ifIndex 10004...
+[2025-07-23 12:32:52] No se pudo obtener la dirección MAC mediante SNMP polling con reintentos.
+[2025-07-23 12:32:52] Evento: ENLACE DOWN
+Dispositivo: SWITCH IP origen: 203f:a:b:10::2
+Puerto detectado: FastEthernet0/4 (Index 10004)
+MAC detectada: desconocida
+<UNKNOWN>
+UDP/IPv6: [203f:a:b:10::2]:64552
+DISMAN-EVENT-MIB::sysUpTimeInstance 0:0:16:18.69
+SNMPv2-MIB::snmpTrapOID.0 IF-MIB::linkDown
+IF-MIB::ifIndex.10004 10004
+IF-MIB::ifDescr.10004 FastEthernet0/4
+IF-MIB::ifType.10004 ethernetCsmacd
+SNMPv2-SMI::enterprises.9.2.2.1.1.20.10004 "down"
+
+------------------------------------------------------------
+
+[2025-07-23 12:32:52] Dispositivo desconectado en puerto FastEthernet0/4 del SWITCH
+[2025-07-23 12:32:52] Limpieza del puerto FastEthernet0/4 tras desconexión del dispositivo en SWITCH.
+[2025-07-23 12:33:00] Playbook de limpieza ejecutado para el puerto FastEthernet0/4. Salida:
+
+PLAY [Limpieza de puerto tras desconexión] *************************************
+
+TASK [limpiar_puerto : Apagar el puerto] ***************************************
+changed: [switch1]
+
+TASK [limpiar_puerto : Limpiar configuración del puerto] ***********************
+changed: [switch1]
+
+TASK [limpiar_puerto : Habilitar el puerto] ************************************
+changed: [switch1]
+
+PLAY RECAP *********************************************************************
+switch1                    : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+Errores:
+[WARNING]: ansible-pylibssh not installed, falling back to paramiko
+[WARNING]: To ensure idempotency and correct diff the input configuration lines
+should be similar to how they appear if present in the running configuration on
+device
+
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:00] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:33:02] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:37:20] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:48:12] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:48:24] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:48:28] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:48:47] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:49:13] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:49:16] Evento ignorado: ifIndex 2 no está configurado como puerto físico (posible VLAN o interfaz virtual)
+[2025-07-23 12:50:08] Evento ignorado: puerto_index no válido (desconocido)
+[2025-07-23 12:50:28] Evento ignorado: puerto_index no válido (desconocido)

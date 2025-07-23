@@ -1,0 +1,84 @@
+[2025-07-23 12:18:43] [INFO] Iniciando búsqueda de MAC para puerto físico ifIndex 10016 en 203f:a:b:10::2
+[2025-07-23 12:18:43] [INFO] Intento 1/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:18:43] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:18:43] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:18:43] [DEBUG] Mapeados 25 puertos a ifIndex
+[2025-07-23 12:18:43] [DEBUG] No se encontró MAC para ifIndex 10016
+[2025-07-23 12:18:43] [DEBUG] Intento 1 sin éxito. MAC no encontrada para ifIndex 10016.
+[2025-07-23 12:18:43] [INFO] Esperando 10s antes del intento 2 para permitir estabilización...
+[2025-07-23 12:18:53] [INFO] Intento 2/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:18:53] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:18:53] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:18:54] [DEBUG] Mapeados 25 puertos a ifIndex
+[2025-07-23 12:18:54] [DEBUG] No se encontró MAC para ifIndex 10016
+[2025-07-23 12:18:54] [DEBUG] Intento 2 sin éxito. MAC no encontrada para ifIndex 10016.
+[2025-07-23 12:18:54] [INFO] Esperando 15s antes del intento 3 para permitir estabilización...
+[2025-07-23 12:19:09] [INFO] Intento 3/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:19:09] [DEBUG] Encontradas 1 MACs en la tabla de forwarding
+[2025-07-23 12:19:09] [DEBUG] Mapeados 25 puertos a ifIndex
+[2025-07-23 12:19:09] [INFO] MAC encontrada para ifIndex 10016: 00:E0:4C:68:01:40
+[2025-07-23 12:19:09] [INFO] MAC encontrada exitosamente en intento 3: 00:E0:4C:68:01:40
+[2025-07-23 12:21:23] [INFO] Iniciando búsqueda de MAC para puerto físico ifIndex 10004 en 203f:a:b:10::2
+[2025-07-23 12:21:23] [INFO] Intento 1/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:21:23] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:21:23] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:21:23] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:21:23] [DEBUG] No se encontró MAC para ifIndex 10004
+[2025-07-23 12:21:23] [DEBUG] Intento 1 sin éxito. MAC no encontrada para ifIndex 10004.
+[2025-07-23 12:21:23] [INFO] Esperando 10s antes del intento 2 para permitir estabilización...
+[2025-07-23 12:21:33] [INFO] Intento 2/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:21:33] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:21:33] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:21:33] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:21:33] [DEBUG] No se encontró MAC para ifIndex 10004
+[2025-07-23 12:21:33] [DEBUG] Intento 2 sin éxito. MAC no encontrada para ifIndex 10004.
+[2025-07-23 12:21:33] [INFO] Esperando 15s antes del intento 3 para permitir estabilización...
+[2025-07-23 12:21:48] [INFO] Intento 3/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:21:48] [DEBUG] Encontradas 1 MACs en la tabla de forwarding
+[2025-07-23 12:21:48] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:21:48] [INFO] MAC encontrada para ifIndex 10004: 30:13:8B:F1:00:BE
+[2025-07-23 12:21:48] [INFO] MAC encontrada exitosamente en intento 3: 30:13:8B:F1:00:BE
+[2025-07-23 12:31:52] [INFO] Iniciando búsqueda de MAC para puerto físico ifIndex 10016 en 203f:a:b:10::2
+[2025-07-23 12:31:52] [INFO] Intento 1/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:31:52] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:31:52] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:31:52] [DEBUG] Mapeados 23 puertos a ifIndex
+[2025-07-23 12:31:52] [DEBUG] No se encontró MAC para ifIndex 10016
+[2025-07-23 12:31:52] [DEBUG] Intento 1 sin éxito. MAC no encontrada para ifIndex 10016.
+[2025-07-23 12:31:52] [INFO] Esperando 10s antes del intento 2 para permitir estabilización...
+[2025-07-23 12:32:02] [INFO] Intento 2/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:32:02] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:32:02] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:32:03] [DEBUG] Mapeados 23 puertos a ifIndex
+[2025-07-23 12:32:03] [DEBUG] No se encontró MAC para ifIndex 10016
+[2025-07-23 12:32:03] [DEBUG] Intento 2 sin éxito. MAC no encontrada para ifIndex 10016.
+[2025-07-23 12:32:03] [INFO] Esperando 15s antes del intento 3 para permitir estabilización...
+[2025-07-23 12:32:18] [INFO] Intento 3/3 para obtener MAC en ifIndex 10016
+[2025-07-23 12:32:18] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:32:18] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:32:18] [DEBUG] Mapeados 23 puertos a ifIndex
+[2025-07-23 12:32:18] [DEBUG] No se encontró MAC para ifIndex 10016
+[2025-07-23 12:32:18] [DEBUG] Intento 3 sin éxito. MAC no encontrada para ifIndex 10016.
+[2025-07-23 12:32:18] [INFO] Búsqueda finalizada sin éxito tras 3 intentos para ifIndex 10016
+[2025-07-23 12:32:26] [INFO] Iniciando búsqueda de MAC para puerto físico ifIndex 10004 en 203f:a:b:10::2
+[2025-07-23 12:32:26] [INFO] Intento 1/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:32:26] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:32:26] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:32:27] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:32:27] [DEBUG] No se encontró MAC para ifIndex 10004
+[2025-07-23 12:32:27] [DEBUG] Intento 1 sin éxito. MAC no encontrada para ifIndex 10004.
+[2025-07-23 12:32:27] [INFO] Esperando 10s antes del intento 2 para permitir estabilización...
+[2025-07-23 12:32:37] [INFO] Intento 2/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:32:37] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:32:37] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:32:37] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:32:37] [DEBUG] No se encontró MAC para ifIndex 10004
+[2025-07-23 12:32:37] [DEBUG] Intento 2 sin éxito. MAC no encontrada para ifIndex 10004.
+[2025-07-23 12:32:37] [INFO] Esperando 15s antes del intento 3 para permitir estabilización...
+[2025-07-23 12:32:52] [INFO] Intento 3/3 para obtener MAC en ifIndex 10004
+[2025-07-23 12:32:52] [DEBUG] No hay MACs disponibles en la tabla de forwarding
+[2025-07-23 12:32:52] [DEBUG] Encontradas 0 MACs en la tabla de forwarding
+[2025-07-23 12:32:52] [DEBUG] Mapeados 24 puertos a ifIndex
+[2025-07-23 12:32:52] [DEBUG] No se encontró MAC para ifIndex 10004
+[2025-07-23 12:32:52] [DEBUG] Intento 3 sin éxito. MAC no encontrada para ifIndex 10004.
+[2025-07-23 12:32:52] [INFO] Búsqueda finalizada sin éxito tras 3 intentos para ifIndex 10004

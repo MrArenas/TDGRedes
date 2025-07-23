@@ -5,6 +5,7 @@
   ios_config:
     lines:
       - switchport mode access
+      - switchport access vlan {{vlan_id}}
       - switchport port-security
       - switchport port-security mac-address {{ mac_address }}
       - switchport port-security maximum 1
