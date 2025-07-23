@@ -86,4 +86,4 @@ TDGRedes/
 
 **Nota**: Para detalles técnicos, configuración avanzada y resolución de problemas, consulte los manuales específicos en cada directorio.
 
-¡Este proyecto representa un paso hacia la modernización de la administración de redes mediante automatización y buenas prácticas de DevOps!
+¡Este proyecto representa un paso hacia la modernización de la administración de redes mediante automatización !
